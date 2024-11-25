@@ -1,0 +1,13 @@
+<service>
+    <id>sing-box</id>
+    <name>sing-box</name>
+    <description>sing-box</description>
+    <executable>cmd.exe</executable>
+    <arguments>/c "%BASE%\WinSW.cmd"</arguments>
+    <stoptimeout>1sec</stoptimeout>
+    <log mode="none"/>
+    <onfailure action="restart" delay="10 sec" />
+    <onfailure action="restart" delay="10 sec" />
+    <onfailure action="restart" delay="10 sec" />
+    <onfailure action="none" />
+</service>
