@@ -5,8 +5,8 @@ chcp 65001 >nul
 :: Admin rights check
 net session >nul 2>&1
 if %errorLevel% neq 0 (
-    set "msg_admin_required=Скрипт запущен без прав администратора. Перезапустите с правами администратора."
-    call echo %%msg_admin_required%%
+    echo Скрипт запущен без прав администратора.
+    echo Перезапустите с правами администратора.
     pause
     exit /b
 )
