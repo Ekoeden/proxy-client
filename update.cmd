@@ -2,7 +2,7 @@
 cd /d "%~dp0bin"
 
 timeout /t 2 >nul
-move /y "update.exe" "new_update.exe"
+move /y "update.exe" "new_update.exe" >nul
 "new_update.exe"
 del "new_update.exe"
 
