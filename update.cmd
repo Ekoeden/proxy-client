@@ -6,8 +6,7 @@ if "%status%"=="Started" (
     WinSW.exe stop
 )
 
-timeout /t 2 >nul
-move /y "update.exe" "new_update.exe" >nul
+copy /y "update.exe" "new_update.exe" >nul
 "new_update.exe"
 del "new_update.exe"
 
