@@ -2,11 +2,29 @@
   "dns": {
     "rules": [
       {
+        "domain_suffix": [
+          "appcenter.ms",
+          "firebase.io",
+          "crashlytics.com"
+        ],
+        "geosite": "category-ads-all",
+        "server": "dns-block"
+      },
+      {
+        "domain_suffix": [
+          "storage.googleapis.com"
+        ],
         "geosite": "youtube",
         "server": "dns-remote"
       },
       {
-        "domain_suffix": "private",
+        "domain_suffix": [
+          "private"
+        ],
+        "geoip": [
+          "ru",
+          "private"
+        ],
         "geosite": [
           "category-ru",
           "google",
@@ -15,29 +33,37 @@
           "reddit",
           "twitch"
         ],
-        "server": "dns-direct"
+        "server": "dns-local"
       }
-    ]
+    ],
+    "final": "dns-remote"
   },
   "route": {
     "rules": [
       {
+        "domain_suffix": [
+          "appcenter.ms",
+          "firebase.io",
+          "crashlytics.com"
+        ],
         "geosite": "category-ads-all",
         "outbound": "block"
       },
       {
+        "domain_suffix": [
+          "storage.googleapis.com"
+        ],
         "geosite": "youtube",
         "outbound": "proxy"
       },
       {
+        "domain_suffix": [
+          "private"
+        ],
         "geoip": [
           "ru",
           "private"
         ],
-        "outbound": "direct"
-      },
-      {
-        "domain_suffix": "private",
         "geosite": [
           "category-ru",
           "google",
