@@ -2,8 +2,9 @@
 chcp 65001 >nul
 setlocal enabledelayedexpansion
 
-:: Ссылка на репозиторий
+:: Ссылки на репозиторий
 set "baseLink=https://raw.githubusercontent.com/Ekoeden/proxy-client/routes/"
+set "mirror=https://cdn.jsdelivr.net/gh/Ekoeden/proxy-client@routes/"
 
 :: Проверка наличия аргумента
 :start
@@ -13,11 +14,15 @@ if "%~1"=="" (
     set "fileName=%~1"
 )
 
-:: Проверка наличия файла
 echo Проверка наличия файла маршрутов...
-curl --fail -s -L -o temp_response.json !baseLink!!fileName!.json
 
-:: Проверка успешности загрузки
+:: Попытка 1: напрямую
+curl --fail -s -L --max-time 10 -o temp_response.json !baseLink!!fileName!.json
+if not errorlevel 1 goto check_html
+
+:: Попытка 2: jsDelivr CDN
+echo Прямое подключение не удалось. Пробуем jsDelivr...
+curl --fail -s -L --max-time 20 -o temp_response.json !mirror!!fileName!.json
 if errorlevel 1 (
     echo Файл !fileName! не найден. Пожалуйста, попробуйте снова.
     del temp_response.json 2>nul
@@ -26,6 +31,7 @@ if errorlevel 1 (
     goto start
 )
 
+:check_html
 :: Проверка, является ли ответ страницей ошибки
 findstr /i "<html" temp_response.json >nul 2>&1
 if %errorlevel%==0 (
