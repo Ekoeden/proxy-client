@@ -5,25 +5,15 @@
   "dns": {
     "servers": [
       {
+        "type": "tls",
         "tag": "dns-remote",
-        "address": "tls://1.1.1.1",
-        "address_resolver": "dns-local",
-        "detour": "direct"
+        "server": "1.1.1.1",
+        "server_port": 853,
+        "detour": "proxy"
       },
       {
-        "tag": "dns-direct",
-        "address": "tls://1.1.1.1",
-        "address_resolver": "dns-local",
-        "detour": "direct"
-      },
-      {
-        "tag": "dns-local",
-        "address": "local",
-        "detour": "direct"
-      },
-      {
-        "tag": "dns-block",
-        "address": "rcode://success"
+        "type": "local",
+        "tag": "dns-local"
       }
     ],
     "rules": [
@@ -32,11 +22,7 @@
           "NIMLOC",
           "SRV"
         ],
-        "server": "dns-block"
-      },
-      {
-        "domain_suffix": ".lan",
-        "server": "dns-block"
+        "action": "reject"
       }
     ],
     "independent_cache": true
@@ -47,15 +33,10 @@
       "tag": "mixed-in",
       "listen": "127.0.0.1",
       "listen_port": 2334,
-      "tcp_fast_open": true,
-      "sniff": true
+      "tcp_fast_open": true
     }
   ],
   "outbounds": [
-    {
-      "type": "dns",
-      "tag": "dns-out"
-    },
     {
       "type": "direct",
       "tag": "direct"
@@ -66,10 +47,14 @@
     }
   ],
   "route": {
+    "default_domain_resolver": "dns-local",
     "rules": [
       {
+        "action": "sniff"
+      },
+      {
         "protocol": "dns",
-        "outbound": "dns-out"
+        "action": "hijack-dns"
       },
       {
         "network": "udp",
@@ -80,14 +65,14 @@
           139,
           5353
         ],
-        "outbound": "block"
+        "action": "reject"
       },
       {
         "ip_cidr": [
           "224.0.0.0/3",
           "ff00::/8"
         ],
-        "outbound": "block"
+        "action": "reject"
       }
     ]
   },
