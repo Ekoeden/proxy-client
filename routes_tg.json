@@ -7,30 +7,42 @@
           "firebase.io",
           "crashlytics.com"
         ],
-        "geosite": "category-ads-all",
-        "server": "dns-block"
+        "action": "reject"
+      },
+      {
+        "rule_set": [
+          "geosite-category-ads-all",
+          "geosite-youtube@ads"
+        ],
+        "action": "reject"
       },
       {
         "domain_suffix": [
+          "clients4.google.com",
           "storage.googleapis.com"
         ],
-        "geosite": "google-gemini",
+        "server": "dns-remote"
+      },
+      {
+        "rule_set": [
+          "geosite-google-gemini"
+        ],
         "server": "dns-remote"
       },
       {
         "domain_suffix": [
-          "private"
+          "private",
+          ".lan"
         ],
-        "geoip": [
-          "ru",
-          "private"
-        ],
-        "geosite": [
-          "category-ru",
-          "google",
-          "github",
-          "reddit",
-          "twitch"
+        "server": "dns-local"
+      },
+      {
+        "rule_set": [
+          "geosite-category-ru",
+          "geosite-google",
+          "geosite-github",
+          "geosite-reddit",
+          "geosite-twitch"
         ],
         "server": "dns-local"
       }
@@ -45,34 +57,128 @@
           "firebase.io",
           "crashlytics.com"
         ],
-        "geosite": "category-ads-all",
+        "outbound": "block"
+      },
+      {
+        "rule_set": [
+          "geosite-category-ads-all",
+          "geosite-youtube@ads"
+        ],
         "outbound": "block"
       },
       {
         "domain_suffix": [
+          "clients4.google.com",
           "storage.googleapis.com"
         ],
-        "geosite": "google-gemini",
         "outbound": "proxy"
       },
       {
+        "rule_set": [
+          "geosite-google-gemini"
+        ],
+        "outbound": "proxy"
+      },
+      {
+        "ip_is_private": true,
+        "outbound": "direct"
+      },
+      {
         "domain_suffix": [
-          "private"
+          "private",
+          ".lan"
         ],
-        "geoip": [
-          "ru",
-          "private"
+        "outbound": "direct"
+      },
+      {
+        "rule_set": [
+          "geoip-ru"
         ],
-        "geosite": [
-          "category-ru",
-          "google",
-          "github",
-          "reddit",
-          "twitch"
+        "outbound": "direct"
+      },
+      {
+        "rule_set": [
+          "geosite-category-ru",
+          "geosite-google",
+          "geosite-github",
+          "geosite-reddit",
+          "geosite-twitch"
         ],
         "outbound": "direct"
       }
     ],
-    "final": "proxy"
+    "final": "proxy",
+    "rule_set": [
+      {
+        "tag": "geoip-ru",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geoip/rule-set/geoip-ru.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geosite-category-ads-all",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-category-ads-all.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geosite-youtube",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-youtube.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geosite-youtube@ads",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-youtube@ads.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geosite-category-ru",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-category-ru.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geosite-github",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-github.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geosite-google",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-google.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geosite-google-gemini",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-google-gemini.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geosite-reddit",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-reddit.srs",
+        "download_detour": "direct"
+      },
+      {
+        "tag": "geosite-twitch",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-twitch.srs",
+        "download_detour": "direct"
+      }
+    ]
   }
 }
